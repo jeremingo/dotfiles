@@ -12,6 +12,8 @@ export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:ll"
 export HISTTIMEFORMAT="%h %d %H:%M:%S "
 
+export EDITOR=vim
+
 PS1='[\u@\h \W]\$ '
 
 git_branch() {
