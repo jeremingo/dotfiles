@@ -9,7 +9,7 @@ alias ls='ls --color=auto --group-directories-first'
 alias ll='ls -la'
 
 export HISTCONTROL=ignoredups
-export HISTIGNORE="ls:ll:cd"
+export HISTIGNORE="ls:ll:cd:clear"
 export HISTTIMEFORMAT="%h %d %H:%M:%S "
 
 export EDITOR=vim
