@@ -3,7 +3,3 @@
 [user]
 	email = 58335558+jeremingo@users.noreply.github.com
 	name = jeremingo
-
-# pull with fast forward only
-[pull]
-	ff = only
