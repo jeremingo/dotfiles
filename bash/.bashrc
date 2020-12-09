@@ -10,6 +10,7 @@ alias ll='ls -la'
 
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:ll"
+export HISTTIMEFORMAT="%h %d %H:%M:%S "
 
 PS1='[\u@\h \W]\$ '
 
