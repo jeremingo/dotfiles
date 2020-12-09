@@ -7,6 +7,10 @@
 
 alias ls='ls --color=auto --group-directories-first'
 alias ll='ls -la'
+
+export HISTCONTROL=ignoredups
+export HISTIGNORE="ls:ll"
+
 PS1='[\u@\h \W]\$ '
 
 git_branch() {
