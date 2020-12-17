@@ -23,4 +23,10 @@ git_branch() {
 
 export PS1="\[\e[1;38;5;82m\]\u\[\e[1;38;5;118m\]@\[\e[1;38;5;154m\]\h\[\e[00m\]:\[\e[1;38;5;190m\]\w\[\e[1;38;5;226m\]\$(git_branch)\[\e[00m\]\$ "
 
+FZF_KEY_BINDINGS=/usr/share/fzf/key-bindings.bash
+[[ -f $FZF_KEY_BINDINGS ]] && . $FZF_KEY_BINDINGS
+
+FZF_COMPLETION=/usr/share/fzf/completion.bash
+[[ -f $FZF_COMPLETION ]] && . $FZF_COMPLETION
+
 PATH="$HOME/.local/bin:$PATH"
