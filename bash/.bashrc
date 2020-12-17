@@ -8,6 +8,7 @@
 alias ls='ls --color=auto --group-directories-first'
 alias ll='ls -la'
 alias vmi='vim'
+alias :q='exit'
 
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:ll:cd:clear"
