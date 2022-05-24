@@ -3,3 +3,5 @@
 [user]
 	email = 58335558+jeremingo@users.noreply.github.com
 	name = jeremingo
+[credential]
+	helper = store --file ~/.git-credentials
