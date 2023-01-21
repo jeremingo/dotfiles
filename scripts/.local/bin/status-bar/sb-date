@@ -1,0 +1,3 @@
+#!/bin/sh
+
+echo -e "'+\uf783 %a, %d/%m \uf017 %T'" | xargs date | awk '{ print tolower($0) }'
