@@ -1,0 +1,3 @@
+#!/bin/sh
+
+echo -n -e '\uf841 '; changed-local-repos | wc -l
