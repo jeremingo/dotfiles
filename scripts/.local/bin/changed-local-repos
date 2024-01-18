@@ -1,3 +1,3 @@
 #!/bin/sh
 
-find ~ -name '.git' ! -path '*/plugged/*' ! -path '*/.cache/*' | sed 's#/\.git##' | xargs -I {} sh -c 'git -C {} status --short -b | grep -e "\[ahead [^\]]*\]" -e "^[^##]" -q && echo {}' | sed 's#/home/[^/]*#~#'
+find ~ -name '.git' | grep -vf ~/.changed-local-repos-ignore | sed 's#/\.git##' | xargs -I {} sh -c 'git -C {} status --short -b | grep -e "\[ahead [^\]]*\]" -e "^[^##]" -q && echo {}' | sed 's#/home/[^/]*#~#'
