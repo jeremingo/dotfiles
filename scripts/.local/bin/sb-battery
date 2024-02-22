@@ -1,0 +1,13 @@
+#!/bin/sh
+
+capacity=`cat /sys/class/power_supply/BAT0/capacity`
+
+if [`cat /sys/class/power_supply/BAT0/status` = "Charging" ]; then
+  icon="\ue55b"
+elif ((capacity < 20)); then
+  icon="\ue55d"
+else
+  icon="\uf1e6"
+fi
+
+echo -e "$capacity$icon"
