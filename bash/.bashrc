@@ -31,3 +31,4 @@ FZF_COMPLETION=/usr/share/fzf/completion.bash
 [[ -f $FZF_COMPLETION ]] && . $FZF_COMPLETION
 
 PATH="$HOME/.local/bin:$PATH"
+PATH="$HOME/.local/bin/status-bar:$PATH"
