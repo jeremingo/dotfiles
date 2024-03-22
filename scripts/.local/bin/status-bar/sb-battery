@@ -3,11 +3,11 @@
 capacity=`cat /sys/class/power_supply/BAT0/capacity`
 
 if [ $( grep 'Charging\|Full' /sys/class/power_supply/BAT0/status ) ]; then
-  icon="\ue55b"
+  icon="\U000f0084"
 elif ((capacity < 20)); then
-  icon="\ue55d"
+  icon="\U000f0083"
 else
-  icon="\uf1e6"
+  icon="\U000f007f"
 fi
 
 echo -e "$capacity$icon"
