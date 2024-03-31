@@ -13,12 +13,10 @@ else
     icon="\U000f0922"
   elif ((0 < signal)); then
     icon="\U000f091f"
+  elif nmcli radio wifi | grep -q enabled; then
+    icon="\U000f092e"
   else
-    if nmcli radio wifi | grep -q enabled; then
-      icon="\U000f092e"
-    else
-      icon="\U000f1790"
-    fi
+    icon="\U000f1790"
   fi
 fi
 
