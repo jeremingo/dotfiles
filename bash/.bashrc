@@ -32,3 +32,4 @@ FZF_COMPLETION=/usr/share/fzf/completion.bash
 
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/.local/bin/status-bar:$PATH"
+PATH="$HOME/.local/bin/dmenu-scripts:$PATH"
