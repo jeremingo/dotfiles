@@ -1,0 +1,48 @@
+#!/bin/sh
+
+if ! systemctl is-active --quiet NetworkManager; then
+  startnm='start network manager'
+  prompt='network manager is inactive'
+else
+  stopnm='stop network manager'
+
+  if nmcli radio wifi | grep -q enabled; then
+    connect='connect to wifi network'
+    connected_network=$( nmcli --terse -f NAME connection show --active | grep -vx lo )
+
+    if [[ ! -z "$connected_network" ]]; then
+      disconnect="disconnect from $connected_network"
+      prompt="connected to $connected_network"
+    fi
+
+    togglewifi='disable wifi'
+    togglevalue='off'
+  else
+    togglewifi='enable wifi'
+    togglevalue='on'
+  fi
+fi
+
+menu="$connect\n$disconnect\n$togglewifi\n$stopnm\n$startnm"
+
+answer=$( echo -e $menu | awk 'NF' | dmenu -l 10 -p "$prompt" )
+
+if [[ ! -z "$answer" ]]; then
+  if [[ "$answer" == "$connect" ]]; then
+    network=$( nmcli -g SSID device wifi | uniq | awk 'NF' | dmenu -l 10 -p 'choose network' )
+    if nmcli --terse -f NAME connection show | grep $network; then
+      nmcli connection up id $network
+    else
+      nmcli device wifi connect $network --ask
+    fi
+  elif [[ "$answer" == "$disconnect" ]]; then
+    nmcli connection down id $connected_network
+  elif [[ "$answer" == "$togglewifi" ]]; then
+    nmcli radio wifi $togglevalue
+  elif [[ "$answer" == "$stopnm" ]]; then
+    sudo systemctl stop NetworkManager.service
+  elif [[ "$answer" == "$startnm" ]]; then
+    sudo systemctl start NetworkManager.service
+  fi
+fi
+
