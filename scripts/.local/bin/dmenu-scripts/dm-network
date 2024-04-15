@@ -6,6 +6,7 @@ network_prompt () {
   stopnm=''
   connect=''
   disconnect=''
+  saved_connections=''
   togglewifi=''
   togglevalue=''
 
@@ -24,6 +25,12 @@ network_prompt () {
         prompt="connected to $connected_network"
       fi
 
+      connections_list=$( nmcli --get-values NAME,TYPE connection show | awk -F ':' '$2 ~ "wireless" { print $1 }' )
+
+      if [[ ! -z "$connections_list" ]]; then
+        saved_connections='saved connections'
+      fi
+
       togglewifi='disable wifi'
       togglevalue='off'
     else
@@ -32,7 +39,7 @@ network_prompt () {
     fi
   fi
 
-  menu="$connect\n$disconnect\n$togglewifi\n$stopnm\n$startnm"
+  menu="$connect\n$disconnect\n$togglewifi\n$saved_connections\n$stopnm\n$startnm"
 
   answer=$( echo -e $menu | awk 'NF' | dmenu -l 10 -p "$prompt" )
 
@@ -59,6 +66,11 @@ network_prompt () {
         done
         refresh_status_block
         network_prompt
+      fi
+    elif [[ "$answer" == "$saved_connections" ]]; then
+      connection=$( echo "$connections_list" | dmenu -l 10 )
+      if [[ ! -z "$connection" && ! -z $( echo 'yes' | dmenu -l 10 -p "delete connection $connection?") ]]; then
+        nmcli connection delete id $connection
       fi
     elif [[ "$answer" == "$stopnm" ]]; then
       sudo --askpass systemctl stop NetworkManager.service
