@@ -57,6 +57,7 @@ network_prompt () {
         do
           sleep 1
         done
+        refresh_status_block
         network_prompt
       fi
     elif [[ "$answer" == "$stopnm" ]]; then
@@ -67,9 +68,16 @@ network_prompt () {
       do
         sleep 1
       done
+      refresh_status_block
       network_prompt
     fi
   fi
+
+  refresh_status_block
+}
+
+refresh_status_block () {
+  kill -35 $( pidof dwmblocks )
 }
 
 network_prompt
