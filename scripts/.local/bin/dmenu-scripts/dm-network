@@ -39,10 +39,14 @@ network_prompt () {
   if [[ ! -z "$answer" ]]; then
     if [[ "$answer" == "$connect" ]]; then
       network=$( nmcli -g SSID device wifi | uniq | awk 'NF' | dmenu -l 10 -p 'choose network' )
-      if nmcli --terse -f NAME connection show | grep $network; then
-        nmcli connection up id $network
+      if [[ ! -z "$network" ]]; then
+        if nmcli --terse -f NAME connection show | grep $network; then
+          nmcli connection up id $network
+        else
+          nmcli device wifi connect $network --ask
+        fi
       else
-        nmcli device wifi connect $network --ask
+        network_prompt
       fi
     elif [[ "$answer" == "$disconnect" ]]; then
       nmcli connection down id $connected_network
