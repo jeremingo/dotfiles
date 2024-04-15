@@ -45,12 +45,16 @@ network_prompt () {
 
   if [[ ! -z "$answer" ]]; then
     if [[ "$answer" == "$connect" ]]; then
-      network=$( nmcli --get-values SSID device wifi | uniq | awk 'NF' | dmenu -l 10 -p 'choose network' )
+      available_networks=$( nmcli --get-values SSID,SECURITY device wifi )
+      network=$( awk -F ':' '$1 { print $1 }' <<< "$available_networks" | uniq |  dmenu -l 10 -p 'choose network' )
       if [[ ! -z "$network" ]]; then
         if nmcli --get-values NAME connection show | grep $network; then
           nmcli connection up id $network
+        elif awk -F ':' -v network="$network" '$1 == network { print $2 }' <<< "$available_networks" | grep .; then
+          password=$( dmenu -p "enter password for $network" <&- )
+          nmcli device wifi connect $network password $password
         else
-          nmcli device wifi connect $network --ask
+          nmcli device wifi connect $network
         fi
       else
         network_prompt
