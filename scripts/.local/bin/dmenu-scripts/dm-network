@@ -25,7 +25,7 @@ network_prompt () {
         prompt="connected to $connected_network"
       fi
 
-      connections_list=$( nmcli --get-values NAME,TYPE connection show | awk -F ':' '$2 ~ "wireless" { print $1 }' )
+      connections_list=$( nmcli --get-values NAME,TYPE connection show | awk -F: '$2 ~ "wireless" { print $1 }' )
 
       if [[ ! -z "$connections_list" ]]; then
         saved_connections='saved connections'
@@ -46,11 +46,11 @@ network_prompt () {
   if [[ ! -z "$answer" ]]; then
     if [[ "$answer" == "$connect" ]]; then
       available_networks=$( nmcli --get-values SSID,SECURITY device wifi )
-      network=$( awk -F ':' '$1 { print $1 }' <<< "$available_networks" | uniq |  dmenu -l 10 -p 'choose network' )
+      network=$( awk -F: '$1 { print $1 }' <<< "$available_networks" | uniq |  dmenu -l 10 -p 'choose network' )
       if [[ ! -z "$network" ]]; then
         if nmcli --get-values NAME connection show | grep $network; then
           nmcli connection up id $network
-        elif awk -F ':' -v network="$network" '$1 == network { print $2 }' <<< "$available_networks" | grep .; then
+        elif awk -F: -v network="$network" '$1 == network { print $2 }' <<< "$available_networks" | grep .; then
           password=$( dmenu -p "enter password for $network" <&- )
           nmcli device wifi connect $network password $password
         else
