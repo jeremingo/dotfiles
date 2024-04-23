@@ -1,0 +1,20 @@
+#!/bin/sh
+
+shutdown="shutdown"
+reboot="reboot"
+
+menu="$shutdown\n$reboot"
+
+answer=$( echo -e $menu | dmenu -l 10 )
+
+if [[ ! -z "$answer" ]]; then
+  confirm=$( echo yes | dmenu -l 10 -p "confirm $answer?")
+
+  if [[ ! -z "$confirm" ]]; then
+    if [[ "$answer" == "$shutdown" ]]; then
+      shutdown now
+    elif [[ "$answer" == "$reboot" ]]; then
+      reboot
+    fi
+  fi
+fi
