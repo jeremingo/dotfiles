@@ -5,10 +5,10 @@ reboot="reboot"
 
 menu="$shutdown\n$reboot"
 
-answer=$( echo -e $menu | dmenu -l 10 )
+answer=$( echo -e $menu | dmenu )
 
 if [[ ! -z "$answer" ]]; then
-  confirm=$( echo yes | dmenu -l 10 -p "confirm $answer?")
+  confirm=$( echo yes | dmenu -p "confirm $answer?")
 
   if [[ ! -z "$confirm" ]]; then
     if [[ "$answer" == "$shutdown" ]]; then

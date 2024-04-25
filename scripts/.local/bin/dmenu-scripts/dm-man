@@ -1,6 +1,6 @@
 #!/bin/sh
 
-answer=$( man -k . | awk '{ print $1 }' | dmenu -l 10 -p 'open man entry:' )
+answer=$( man -k . | awk '{ print $1 }' | dmenu -p 'open man entry:' )
 
 if [[ ! -z "$answer" ]]; then
   st -e man $answer

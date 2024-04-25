@@ -41,12 +41,12 @@ network_prompt () {
 
   menu="$connect\n$disconnect\n$togglewifi\n$saved_connections\n$stopnm\n$startnm"
 
-  answer=$( echo -e $menu | awk 'NF' | dmenu -l 10 -p "$prompt" )
+  answer=$( echo -e $menu | awk 'NF' | dmenu -p "$prompt" )
 
   if [[ ! -z "$answer" ]]; then
     if [[ "$answer" == "$connect" ]]; then
       available_networks=$( nmcli --get-values SSID,SECURITY device wifi )
-      network=$( awk -F: '$1 { print $1 }' <<< "$available_networks" | uniq |  dmenu -l 10 -p 'choose network' )
+      network=$( awk -F: '$1 { print $1 }' <<< "$available_networks" | uniq |  dmenu -p 'choose network' )
       if [[ ! -z "$network" ]]; then
         if grep $network <<< "$connections_list"; then
           nmcli connection up id $network
@@ -72,8 +72,8 @@ network_prompt () {
         network_prompt
       fi
     elif [[ "$answer" == "$saved_connections" ]]; then
-      connection=$( echo "$connections_list" | dmenu -l 10 )
-      if [[ ! -z "$connection" && ! -z $( echo 'yes' | dmenu -l 10 -p "delete connection $connection?") ]]; then
+      connection=$( echo "$connections_list" | dmenu )
+      if [[ ! -z "$connection" && ! -z $( echo 'yes' | dmenu -p "delete connection $connection?") ]]; then
         nmcli connection delete id $connection
       fi
     elif [[ "$answer" == "$stopnm" ]]; then
