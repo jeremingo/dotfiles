@@ -1,3 +1,5 @@
+#!/bin/sh
+
 { echo "XIDeviceEnabled XISlaveKeyboard"; inputplug -d -c /bin/echo; } |
 while read event
 do
