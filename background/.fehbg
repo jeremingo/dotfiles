@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-fill '/home/jeremingo/images/background/gruvbox-bg.png' 
+feh --no-fehbg --bg-tile '/home/jeremingo/images/background/gruvbox-tile.png'
