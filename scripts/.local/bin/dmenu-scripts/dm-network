@@ -49,18 +49,18 @@ network_prompt () {
       network=$( awk -F: '$1 { print $1 }' <<< "$available_networks" | uniq |  dmenu -p 'choose network' )
       if [[ ! -z "$network" ]]; then
         if grep $network <<< "$connections_list"; then
-          nmcli connection up id $network
+          nmcli connection up id "$network"
         elif awk -F: -v network="$network" '$1 == network { print $2 }' <<< "$available_networks" | grep .; then
           password=$( dmenu -p "enter password for $network" <&- )
-          nmcli device wifi connect $network password $password
+          nmcli device wifi connect "$network" password "$password"
         else
-          nmcli device wifi connect $network
+          nmcli device wifi connect "$network"
         fi
       else
         network_prompt
       fi
     elif [[ "$answer" == "$disconnect" ]]; then
-      nmcli connection down id $connected_network
+      nmcli connection down id "$connected_network"
     elif [[ "$answer" == "$togglewifi" ]]; then
       nmcli radio wifi $togglevalue
       if [[ "$togglevalue" == 'on' ]]; then
@@ -74,7 +74,7 @@ network_prompt () {
     elif [[ "$answer" == "$saved_connections" ]]; then
       connection=$( echo "$connections_list" | dmenu )
       if [[ ! -z "$connection" && ! -z $( echo 'yes' | dmenu -p "delete connection $connection?") ]]; then
-        nmcli connection delete id $connection
+        nmcli connection delete id "$connection"
       fi
     elif [[ "$answer" == "$stopnm" ]]; then
       sudo --askpass systemctl stop NetworkManager.service
