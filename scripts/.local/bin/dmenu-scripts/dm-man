@@ -1,7 +1,7 @@
 #!/bin/sh
 
-answer=$( man -k . | awk '{ print $1 }' | dmenu -p 'open man entry:' )
+answer=$( man -k . | dmenu -p 'open man entry:' )
 
 if [[ ! -z "$answer" ]]; then
-  st -e man $answer
+  st -e man $( echo $answer | awk '{ print $2 $1 }' | tr '()' ' ' )
 fi
