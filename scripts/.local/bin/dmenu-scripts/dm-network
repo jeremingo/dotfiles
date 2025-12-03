@@ -51,7 +51,7 @@ network_prompt () {
         if grep $network <<< "$connections_list"; then
           nmcli connection up id "$network"
         elif awk -F: -v network="$network" '$1 == network { print $2 }' <<< "$available_networks" | grep .; then
-          password=$( dmenu -p "enter password for $network" <&- )
+          password=$( dmenu -P -p "enter password for $network" <&- )
           nmcli device wifi connect "$network" password "$password"
         else
           nmcli device wifi connect "$network"
