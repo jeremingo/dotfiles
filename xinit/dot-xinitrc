@@ -5,7 +5,7 @@ while read event
 do
   case $event in
   XIDeviceEnabled*XISlaveKeyboard*)
-    setxkbmap -layout us -variant dvorak
+    setxkbmap -layout us,il -variant dvorak, -option 'grp:ctrl_space_toggle'
     ;;
   esac
 done &
