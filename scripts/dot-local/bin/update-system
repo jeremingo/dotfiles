@@ -1,0 +1,7 @@
+#!/bin/sh
+
+pacman -Qtdq | sudo pacman -Rns
+
+sudo pacman -Sy --needed archlinux-keyring && sudo pacman -Su
+
+sudo mandb
