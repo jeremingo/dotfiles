@@ -6,7 +6,8 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto --group-directories-first'
-alias ll='ls -lA'
+alias ll='ls -lh'
+alias lla='ll -A'
 alias vmi='vim'
 alias :q='exit'
 
