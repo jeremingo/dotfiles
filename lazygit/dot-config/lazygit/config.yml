@@ -1,0 +1,12 @@
+customCommands:
+  - key: "G"
+    context: "global"
+    command: "clear && ghx"
+    output: terminal
+
+promptToReturnFromSubprocess: false
+
+git:
+  diffRenderers:
+    - colorArg: always
+      command: diff-so-fancy
