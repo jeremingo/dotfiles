@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pacman -Qtdq | sudo pacman -Rns
+sudo pacman -Rns $(pacman -Qtdq)
 
 sudo pacman -Sy --needed archlinux-keyring && sudo pacman -Su
 
