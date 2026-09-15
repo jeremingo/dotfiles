@@ -10,6 +10,7 @@ alias ll='ls -lh'
 alias lla='ll -A'
 alias vmi='vim'
 alias :q='exit'
+alias grep='grep --color'
 
 export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:ll:cd:clear"
