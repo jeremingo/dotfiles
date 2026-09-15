@@ -1,3 +1,6 @@
 [submodule "vim"]
 	path = vim/dot-vim
 	url = git@github.com:jeremingo/vimfiles.git
+[submodule "vimfiles"]
+	path = nvim/dot-config/nvim
+	url = git@github.com:jeremingo/vimfiles.git
