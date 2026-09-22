@@ -1,0 +1,26 @@
+#!/bin/sh
+
+new_bookmark='<new>'
+edit='<edit>'
+
+answer=$( { cat ~/.config/bookmarks ; echo -e "$new_bookmark\n$edit" ; } | dmenu -p "open bookmark:" )
+
+if [[ ! -z "$answer" ]]; then
+
+  if [[ "$answer" == "$new_bookmark" ]]; then
+    name=$( dmenu -p "name new bookmark: " <&- )
+
+    if [[ ! -z "$name" ]]; then
+      copied=$( xsel --primary --output | head -n 1 )
+      url=$( dmenu -p "bookmark url: " -it "$copied" <&- )
+      if [[ ! -z "$url" ]]; then
+        echo "$name -> $url" >> ~/.config/bookmarks
+      fi
+    fi
+  elif [[ "$answer" == "$edit" ]]; then
+    st -e $EDITOR ~/.config/bookmarks
+  else
+    firefox "$( echo $answer | awk '{ print $NF }' )"
+  fi
+
+fi
