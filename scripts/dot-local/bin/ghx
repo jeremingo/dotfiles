@@ -25,7 +25,8 @@ commands = {
         "t": "gh todo",
         "p": "gh pr view",
         "w": "gh run watch",
-        "c": "clear"
+        "c": "clear",
+        "o": "gh {command}"
     }
 
 def run_command(template):
