@@ -5,6 +5,7 @@ import termios
 import tty
 import subprocess
 import pprint
+import signal
 import string
 
 def get_key():
@@ -37,11 +38,19 @@ def run_command(template):
             if field_name
         ]
 
-    values = { field: input(f"{field} > ") for field in fields }
+    try:
+        values = { field: input(f"{field} > ") for field in fields }
+    except KeyboardInterrupt:
+        print()
+        return
 
     command = template.format(**values)
 
-    subprocess.run(command.split(" "))
+    previous = signal.signal(signal.SIGINT, lambda *_: None)
+    try:
+        subprocess.run(command.split(" "))
+    finally:
+        signal.signal(signal.SIGINT, previous)
 
 while True:
     print("> ", end="", flush=True)
