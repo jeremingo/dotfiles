@@ -1,0 +1,49 @@
+#!/bin/sh
+
+projects=$(tmuxinator list -n | grep -v 'tmuxinator projects:')
+active_projects=$(tmuxinator list -n -a | grep -v 'tmuxinator projects:')
+
+projects_with_status=$(
+  echo "$projects" |
+  while IFS= read -r project; do
+    if echo "$active_projects" | grep -Fxq "$project"; then
+      echo "$project *"
+    else
+      echo "$project"
+    fi
+  done
+)
+
+project=$( echo "$projects_with_status" | dmenu -p "tmuxinator projects:" )
+
+if [[ ! -z "$project" ]]; then
+  project_name=${project%% *}
+  is_active=false
+
+  [ "$project" != "$project_name" ] && is_active=true
+
+  start="start"
+  restart="restart"
+  stop="stop"
+  edit="edit"
+
+  menu="$start\n$edit"
+  
+
+  if [ "$is_active" = true ]; then
+    menu="$start\n$stop\n$restart\n$edit"
+  fi
+
+  answer=$( echo -e $menu | dmenu -p "project: $project_name" )
+
+  if [ "$answer" == "$start" ]; then
+    st -e tmuxinator start $project_name
+  elif [ "$answer" == "$restart" ]; then
+    tmuxinator stop $project_name
+    st -e tmuxinator start $project_name
+  elif [ "$answer" == "$stop" ]; then
+    tmuxinator stop $project_name
+  elif [ "$answer" == "$edit" ]; then
+    st -e tmuxinator edit $project_name
+  fi
+fi
