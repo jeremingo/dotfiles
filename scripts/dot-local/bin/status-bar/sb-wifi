@@ -3,20 +3,26 @@
 if ! systemctl is-active --quiet NetworkManager; then
   icon="\U000f0551"
 else
-  signal=$( nmcli -f IN-USE,SIGNAL device wifi | awk '/\*/{if (NR!=1) {print $2}}' )
+  active_connection=$( nmcli --get-values TYPE connection show --active | grep --invert-match --line-regexp loopback )
 
-  if ((75 <= signal)); then
-    icon="\U000f0928"
-  elif ((50 <= signal)); then
-    icon="\U000f0925"
-  elif ((25 <= signal)); then
-    icon="\U000f0922"
-  elif ((0 < signal)); then
-    icon="\U000f091f"
-  elif nmcli radio wifi | grep -q enabled; then
-    icon="\U000f092e"
+  if [[ "$active_connection" == "802-3-ethernet" ]]; then
+    icon="\U000f1394"
   else
-    icon="\U000f1790"
+    signal=$( nmcli -f IN-USE,SIGNAL device wifi | awk '/\*/{if (NR!=1) {print $2}}' )
+
+    if ((75 <= signal)); then
+      icon="\U000f0928"
+    elif ((50 <= signal)); then
+      icon="\U000f0925"
+    elif ((25 <= signal)); then
+      icon="\U000f0922"
+    elif ((0 < signal)); then
+      icon="\U000f091f"
+    elif nmcli radio wifi | grep -q enabled; then
+      icon="\U000f092e"
+    else
+      icon="\U000f1790"
+    fi
   fi
 fi
 
